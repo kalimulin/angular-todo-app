@@ -10,11 +10,12 @@ import {Subject} from "rxjs";
 export class DataHandlerService {
 
   tasksSubject = new Subject<Task[]>();
+  categoriesSubject = new Subject<Category[]>();
 
   constructor() { }
 
-  getCategories(): Category[] {
-    return TestData.categories;
+  fillCategories() {
+    this.categoriesSubject.next(TestData.categories);
   }
 
   fillTasks(category?:Category) {
