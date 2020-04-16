@@ -25,7 +25,7 @@ export class TasksComponent implements OnInit {
   constructor(private dataHandler: DataHandlerService) { }
 
   ngOnInit() {
-    this.dataHandler.tasksSubject.subscribe(tasks => {
+    this.dataHandler.getAllTasks().subscribe(tasks => {
       this.tasks = tasks;
     });
 
@@ -68,7 +68,7 @@ export class TasksComponent implements OnInit {
           return task.category ? task.category.title : null;
         }
         case 'date': {
-          return task.date ? task.date : null;
+          return task.date ? task.date.getTime() : null;
         }
         case 'title': {
           return task.title;
