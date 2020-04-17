@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 
 export interface TaskDAO extends CommonDAO<Task> {
   // поиск задач по всем параметрам
-  search(category: Category, searchText: string, status: boolean, priority: Priority): Observable<Task>;
+  search(category: Category, searchText: string, status: boolean, priority: Priority): Observable<Task[]>;
 
   //количество завершенных задач в категории или во всех категориях
   getCompletedTasksCount(category: Category): Observable<number>;

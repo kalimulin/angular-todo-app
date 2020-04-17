@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Task} from "../../model/Task";
 import {DataHandlerService} from "../../service/data-handler.service";
 import {MatTableDataSource} from "@angular/material/table";
@@ -22,17 +22,18 @@ export class TasksComponent implements OnInit {
 
   tasks: Task[];
 
+  @Input('tasks') set setTasks(tasks: Task[]) {
+    this.tasks = tasks;
+    this.fillTable();
+  }
+
   constructor(private dataHandler: DataHandlerService) { }
 
   ngOnInit() {
-    this.dataHandler.getAllTasks().subscribe(tasks => {
-      this.tasks = tasks;
-    });
-
     // dataSource обязательно должен создаваться для таблицы
     this.dataSource = new MatTableDataSource();
 
-    this.refreshTable();
+    this.fillTable(); // заполнение таблицы данными и метаданными
   }
 
   ngAfterViewInit() {
@@ -55,7 +56,7 @@ export class TasksComponent implements OnInit {
   }
 
   // показ задач по всем текущим условиям
-  private refreshTable() {
+  private fillTable() {
     this.dataSource.data = this.tasks;
     this.addTableObjects();
 

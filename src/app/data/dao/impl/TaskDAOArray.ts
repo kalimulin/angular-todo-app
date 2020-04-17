@@ -38,8 +38,8 @@ export class TaskDAOArray implements TaskDAO {
     return undefined;
   }
 
-  search(category: Category, searchText: string, status: boolean, priority: Priority): Observable<Task> {
-    return undefined;
+  search(category: Category, searchText: string, status: boolean, priority: Priority): Observable<Task[]> {
+    return of(this.searchTasks(category, searchText, status, priority));
   }
 
   update(T): Observable<Task> {
@@ -48,6 +48,16 @@ export class TaskDAOArray implements TaskDAO {
 
   getTasksByCategory(category: Category): Observable<Task[]> {
     return of(TestData.tasks.filter(t => t.category === category));
+  }
+
+  private searchTasks(category: Category, searchText: string, status: boolean, priority: Priority): Task[] {
+    let allTasks = TestData.tasks;
+
+    if (category) {
+      allTasks = allTasks.filter(c => c.category === category);
+    }
+
+    return allTasks;
   }
 
 }
