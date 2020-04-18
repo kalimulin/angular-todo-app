@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Task} from "../../model/Task";
 import {DataHandlerService} from "../../service/data-handler.service";
 import {MatTableDataSource} from "@angular/material/table";
@@ -27,12 +27,13 @@ export class TasksComponent implements OnInit {
     this.fillTable();
   }
 
+  @Output() updateTask = new EventEmitter<Task>();
+
   constructor(private dataHandler: DataHandlerService) { }
 
   ngOnInit() {
     // dataSource обязательно должен создаваться для таблицы
     this.dataSource = new MatTableDataSource();
-
     this.fillTable(); // заполнение таблицы данными и метаданными
   }
 
@@ -57,22 +58,24 @@ export class TasksComponent implements OnInit {
 
   // показ задач по всем текущим условиям
   private fillTable() {
-    this.dataSource.data = this.tasks;
-    this.addTableObjects();
+    if (this.dataSource) {
+      this.dataSource.data = this.tasks;
+      this.addTableObjects();
 
-    this.dataSource.sortingDataAccessor = (task, colName) => {
-      switch (colName) {
-        case 'priority': {
-          return task.priority ? task.priority.id : null;
-        }
-        case 'category': {
-          return task.category ? task.category.title : null;
-        }
-        case 'date': {
-          return task.date ? task.date.getTime() : null;
-        }
-        case 'title': {
-          return task.title;
+      this.dataSource.sortingDataAccessor = (task, colName) => {
+        switch (colName) {
+          case 'priority': {
+            return task.priority ? task.priority.id : null;
+          }
+          case 'category': {
+            return task.category ? task.category.title : null;
+          }
+          case 'date': {
+            return task.date ? task.date.getTime() : null;
+          }
+          case 'title': {
+            return task.title;
+          }
         }
       }
     }
@@ -81,5 +84,9 @@ export class TasksComponent implements OnInit {
   private addTableObjects() {
     this.dataSource.sort = this.sort; // компонент для сортировки данных
     this.dataSource.paginator = this.paginator; // обновление компонента постраничности
+  }
+
+  onClickTask(task: Task) {
+    this.updateTask.emit(task);
   }
 }

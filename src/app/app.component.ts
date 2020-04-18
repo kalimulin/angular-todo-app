@@ -29,4 +29,8 @@ export class AppComponent {
       this.tasks = tasks;
     })
   }
+
+  onUpdateTask(task: Task) {
+    console.log(task);
+  }
 }
