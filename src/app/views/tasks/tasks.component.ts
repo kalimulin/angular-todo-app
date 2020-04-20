@@ -4,6 +4,8 @@ import {DataHandlerService} from "../../service/data-handler.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
+import {EditTaskDialogComponent} from "../../dialog/edit-task-dialog/edit-task-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-tasks',
@@ -29,7 +31,10 @@ export class TasksComponent implements OnInit {
 
   @Output() updateTask = new EventEmitter<Task>();
 
-  constructor(private dataHandler: DataHandlerService) { }
+  constructor(
+    private dataHandler: DataHandlerService,
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit() {
     // dataSource обязательно должен создаваться для таблицы
@@ -41,12 +46,8 @@ export class TasksComponent implements OnInit {
     this.addTableObjects();
   }
 
-  toggleTaskCompleted (task: Task) {
-    task.completed = !task.completed;
-  }
-
   // цвет статуса задачи
-  getPriorityColor(task: Task) {
+  getPriorityColor(task: Task):string {
     if (task.completed) {
       return '#f8f9fa';
     }
@@ -57,7 +58,7 @@ export class TasksComponent implements OnInit {
   }
 
   // показ задач по всем текущим условиям
-  private fillTable() {
+  private fillTable(): void {
     if (this.dataSource) {
       this.dataSource.data = this.tasks;
       this.addTableObjects();
@@ -81,12 +82,24 @@ export class TasksComponent implements OnInit {
     }
   }
 
-  private addTableObjects() {
+  private addTableObjects(): void {
     this.dataSource.sort = this.sort; // компонент для сортировки данных
     this.dataSource.paginator = this.paginator; // обновление компонента постраничности
   }
 
-  onClickTask(task: Task) {
-    this.updateTask.emit(task);
+  onClickTask(task: Task): void {
+    this.openEditTaskDialog(task);
+  }
+
+  private openEditTaskDialog(task: Task): void {
+    const dialogRef = this.dialog.open(
+      EditTaskDialogComponent,
+      {data: [task, 'Редактирование задачи'], autoFocus: false, width: '400px'}
+      );
+    dialogRef.afterClosed().subscribe(result => {
+      if (result as Task) {
+        this.updateTask.emit(result)
+      }
+    })
   }
 }
