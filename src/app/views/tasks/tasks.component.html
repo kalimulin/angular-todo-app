@@ -52,7 +52,7 @@
         <td mat-cell *matCellDef="let task" [ngClass]="{'completed': task.completed, 'novalue': !task.category}"
             class="col-category"
         >
-          {{task.priority ? task.priority.title : 'Без категории'}}
+          {{task.category ? task.category.title : 'Без категории'}}
         </td>
       </ng-container>
 

@@ -14,3 +14,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .pointer {
   cursor: pointer;
 }
+
+.mat-form-field {
+  width: 100%;
+}
+
+.mat-dialog-container {
+  padding: 40px !important;
+}
