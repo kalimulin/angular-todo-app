@@ -6,6 +6,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {EditTaskDialogComponent} from "../../dialog/edit-task-dialog/edit-task-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {ConfirmDialogComponent} from "../../dialog/confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-tasks',
@@ -15,7 +16,7 @@ import {MatDialog} from "@angular/material/dialog";
 export class TasksComponent implements OnInit {
 
   // поля для таблицы должны совпадать с названиями переменных класса
-  displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category'];
+  displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category', 'operations', 'select'];
   dataSource: MatTableDataSource<Task>;
 
   // ссылки на компоненты таблицы
@@ -90,6 +91,28 @@ export class TasksComponent implements OnInit {
 
   onClickTask(task: Task): void {
     this.openEditTaskDialog(task);
+  }
+
+  openDeteleTaskDialog(task: Task):void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: '500px',
+      data: {
+        dialogTitle: 'Подтверждение',
+        message: 'Вы действительно хотите удалить задачу?'
+      },
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteTask.emit(task);
+      }
+    })
+  }
+
+  onToggleStatus(task: Task):void {
+    task.completed = !task.completed;
+    this.updateTask.emit(task);
   }
 
   private openEditTaskDialog(task: Task): void {
