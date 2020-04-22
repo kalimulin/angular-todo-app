@@ -43,6 +43,7 @@ export class AppComponent {
     this.dataHandler.deleteTask(task).subscribe(() => {
       this.dataHandler.searchTasks(this.selectedCategory, null, null, null)
         .subscribe(tasks => {
+          console.log(tasks);
           this.tasks = tasks;
         })
     })

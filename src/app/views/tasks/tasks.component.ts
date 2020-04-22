@@ -95,11 +95,21 @@ export class TasksComponent implements OnInit {
   private openEditTaskDialog(task: Task): void {
     const dialogRef = this.dialog.open(
       EditTaskDialogComponent,
-      {data: [task, 'Редактирование задачи'], autoFocus: false, width: '400px'}
+      {data: [task, 'Редактирование задачи'], autoFocus: false, minWidth: '500px'}
       );
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'delete') {
         this.deleteTask.emit(task);
+        return;
+      }
+      if (result === 'complete') {
+        task.completed = true;
+        this.updateTask.emit(task);
+        return;
+      }
+      if (result === 'activate') {
+        task.completed = false;
+        this.updateTask.emit(task);
         return;
       }
       if (result as Task) {

@@ -50,6 +50,13 @@ export class TaskDAOArray implements TaskDAO {
     return of(task);
   }
 
+  activate(id: number): Observable<Task> {
+    const taskTmp = TestData.tasks.find(t => t.id === id);
+    taskTmp.completed = false;
+    TestData.tasks.splice(TestData.tasks.indexOf(taskTmp), 1, taskTmp);
+    return of(taskTmp);
+  }
+
   getTasksByCategory(category: Category): Observable<Task[]> {
     return of(TestData.tasks.filter(t => t.category === category));
   }
@@ -60,7 +67,6 @@ export class TaskDAOArray implements TaskDAO {
     if (category) {
       allTasks = allTasks.filter(c => c.category === category);
     }
-
     return allTasks;
   }
 

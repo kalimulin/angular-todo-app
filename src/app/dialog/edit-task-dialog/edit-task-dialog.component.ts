@@ -26,7 +26,7 @@ export class EditTaskDialogComponent implements OnInit {
   tmpPriority: Priority;
   dialogTitle: string;
   tmpTitle: string;
-  private task: Task;
+  task: Task;
 
   ngOnInit(): void {
     this.task = this.data[0];
@@ -72,5 +72,10 @@ export class EditTaskDialogComponent implements OnInit {
       }
     })
   }
-
+  activate():void {
+    this.dialogRef.close('activate');
+  }
+  complete():void {
+    this.dialogRef.close('complete');
+  }
 }
