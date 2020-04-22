@@ -24,6 +24,7 @@ export class EditTaskDialogComponent implements OnInit {
   tmpCategory: Category;
   priorities: Priority[];
   tmpPriority: Priority;
+  tmpDate: Date;
   dialogTitle: string;
   tmpTitle: string;
   task: Task;
@@ -33,6 +34,7 @@ export class EditTaskDialogComponent implements OnInit {
     this.dialogTitle = this.data[1];
     this.tmpTitle = this.task.title;
     this.tmpCategory = this.task.category;
+    this.tmpDate = this.task.date;
 
     this.dataHandler.getAllCategories().subscribe(items => {
       this.categories = items;
@@ -50,6 +52,7 @@ export class EditTaskDialogComponent implements OnInit {
     this.task.title = this.tmpTitle;
     this.task.category = this.tmpCategory;
     this.task.priority = this.tmpPriority;
+    this.task.date = this.tmpDate;
   }
 
   onCancel():void {
