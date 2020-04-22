@@ -49,8 +49,9 @@
       <!-- категория -->
       <ng-container matColumnDef="category">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Категория</th>
-        <td mat-cell *matCellDef="let task" [ngClass]="{'completed': task.completed, 'novalue': !task.category}"
-            class="col-category"
+        <td mat-cell *matCellDef="let task"
+            [ngClass]="{'completed': task.completed, 'novalue': !task.category, 'link': !task.completed && task.category}"
+            class="col-category" (click)="!task.completed && task.category && onSelectCategory(task.category)"
         >
           {{task.category ? task.category.title : 'Без категории'}}
         </td>

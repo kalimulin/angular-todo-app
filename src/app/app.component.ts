@@ -12,7 +12,7 @@ export class AppComponent {
   title = 'angular-todo-app';
   tasks: Task[];
   categories: Category[];
-  private selectedCategory: Category;
+  selectedCategory: Category;
 
   constructor(private dataHandler:DataHandlerService) {
   }
