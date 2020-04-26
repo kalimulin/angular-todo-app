@@ -1,27 +1,32 @@
 <div class="sidebar" data-color="purple" data-background-color="white" data-image="../assets/img/sidebar-1.jpg">
-  <!--
-    Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
-
-    Tip 2: you can also add an image using data-image tag
--->
   <div class="logo"><a href="/" class="simple-text logo-normal">
-    TODO
+    Категории
   </a></div>
   <div class="sidebar-wrapper">
     <ul class="nav">
-      <li class="nav-item" (click)="showTasksByCategory()" [class.active]="!currentCategory">
+      <li class="nav-item" (click)="showTasksByCategory(null)" [class.active]="currentCategory === null">
         <a class="nav-link" style="cursor: pointer">
           <p>Все</p>
         </a>
       </li>
+      <div class="line"></div>
       <li
-        class="nav-item"
-        *ngFor="let category of categories"
+        class="nav-item pointer"
+        *ngFor="let category of categories; let index = index"
         (click)="showTasksByCategory(category)"
         [class.active]="currentCategory === category"
+        (mouseleave)="showEditIcon(null)"
+        (mouseenter)="showEditIcon(index)"
       >
         <a class="nav-link" style="cursor: pointer">
-          <p>{{category.title}}</p>
+          <span class="category-title">{{category.title}}</span>
+          <span class="edit-category-icon-area">
+            <mat-icon
+              *ngIf="indexMouseMove === index"
+              (click)="$event.stopPropagation(); openEditDialog(category)"
+              class="edit-category-icon"
+            >edit</mat-icon>
+          </span>
         </a>
       </li>
     </ul>

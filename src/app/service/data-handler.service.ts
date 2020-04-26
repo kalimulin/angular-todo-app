@@ -43,4 +43,12 @@ export class DataHandlerService {
     return this.priorityDAOArray.getAll();
   }
 
+  deleteCategory(id: number): Observable<Category> {
+    return this.categoryDAOArray.delete(id);
+  }
+
+  updateCategory(category: Category): Observable<Category> {
+    return this.categoryDAOArray.update(category);
+  }
+
 }

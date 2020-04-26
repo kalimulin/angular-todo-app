@@ -15,6 +15,7 @@ export class AppComponent {
   selectedCategory: Category;
 
   constructor(private dataHandler:DataHandlerService) {
+    this.selectedCategory = null;
   }
 
   ngOnInit():void {
@@ -42,10 +43,22 @@ export class AppComponent {
   onDeleteTask(task: Task) {
     this.dataHandler.deleteTask(task).subscribe(() => {
       this.dataHandler.searchTasks(this.selectedCategory, null, null, null)
-        .subscribe(tasks => {
-          console.log(tasks);
-          this.tasks = tasks;
+        .subscribe(items => {
+          this.tasks = items;
         })
+    })
+  }
+
+  onDeleteCategory(category: Category) {
+    this.dataHandler.deleteCategory(category.id).subscribe(() => {
+      this.selectedCategory = null;
+      this.onSelectCategory(this.selectedCategory);
+    })
+  }
+
+  onUpdateCategory(category: Category) {
+    this.dataHandler.updateCategory(category).subscribe(() => {
+      this.onSelectCategory(this.selectedCategory);
     })
   }
 

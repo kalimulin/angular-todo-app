@@ -10,8 +10,10 @@
 <div>
   <div class="wrapper ">
     <app-categories
-      [categories]="categories"
       (selectCategory)="onSelectCategory($event)"
+      (deleteCategory)="onDeleteCategory($event)"
+      (updateCategory)="onUpdateCategory($event)"
+      [categories]="categories"
       [currentCategory]="selectedCategory"
     ></app-categories>
     <div class="main-panel">
